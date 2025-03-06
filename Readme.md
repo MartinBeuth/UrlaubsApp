@@ -1,4 +1,12 @@
-﻿# Inhaltsverzeichnis
+# Urlaubsapp
+## allgemein
+Diese App wurde komplett mit PowerApps erstellt und dient der Urlaubsverwaltung. Sie bietet Funktionen zur Auswahl von Mitarbeitern, Monatsübersichten und Urlaubsanträgen. 
+
+Die App integriert relationale Daten aus verschiedenen SharePoint-Listen. Logische Verknüpfungen gewährleisten Konsistenz zwischen Kalender- und Mitarbeiterdaten. Der 36-Tage-Zyklus unterteilt sich in sechs gleichmäßige Wochen, was eine übersichtliche Visualisierung ermöglicht.
+
+---
+ 
+ # Inhaltsverzeichnis
 
 | Screen         | Link                  |
 |----------------|-----------------------|

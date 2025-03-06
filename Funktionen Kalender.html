@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funktionen Kalender.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+<style>
+    /* Freundliches und lebendiges Design */
+    body {
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+        background: #fdfdfd;
+        color: #333;
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+    }
+
+    /* Inhaltsverzeichnis */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background: #f9f9ff;
+        border: 2px solid #4a90e2;
+        border-radius: 8px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table th, table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #4a90e2;
+    }
+
+    table th {
+        background: #4a90e2;
+        color: #fff;
+        text-transform: uppercase;
+    }
+
+    table a {
+        color: #4a90e2;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    table a:hover {
+        text-decoration: underline;
+    }
+
+    /* Kapitelüberschriften */
+    h1, h2, h3 {
+        font-family: 'Georgia', serif;
+        color: #2c3e50;
+        margin-top: 30px;
+    }
+
+    h1 {
+        font-size: 32px;
+        text-align: center;
+        border-bottom: 3px solid #4a90e2;
+        padding-bottom: 10px;
+    }
+
+    h2 {
+        font-size: 26px;
+        border-left: 6px solid #4a90e2;
+        padding-left: 12px;
+        margin-top: 20px;
+    }
+
+    h3 {
+        font-size: 22px;
+        color: #4a90e2;
+    }
+
+    /* Codeblöcke */
+    pre {
+        background: #eef4ff;
+        color: #2c3e50;
+        padding: 12px;
+        border-left: 4px solid #4a90e2;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+
+    /* Allgemeine Texte */
+    p {
+        margin-bottom: 15px;
+    }
+
+    strong {
+        color: #2c3e50;
+    }
+
+    hr {
+        border: none;
+        height: 1px;
+        background: #4a90e2;
+        margin: 30px 0;
+    }
+  </style>
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="inhaltsverzeichnis">Inhaltsverzeichnis</h1>
+
+<table>
+<thead>
+<tr>
+<th>Screen</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vorabauswahl</td>
+<td><a href="#vorabauswahl">Vorabauswahl</a></td>
+</tr>
+<tr>
+<td>Monatsansicht</td>
+<td><a href="#monatsansicht">Monatsansicht</a></td>
+</tr>
+<tr>
+<td>Antragsseite</td>
+<td><a href="#antragsseite">Antragsseite</a></td>
+</tr>
+<tr>
+<td>PopUP</td>
+<td><a href="#popup">PopUP</a></td>
+</tr>
+<tr>
+<td>PopUP_Storno</td>
+<td><a href="#popup_storno">PopUP_Storno</a></td>
+</tr>
+</tbody>
+</table><h2 id="vorabauswahl">Vorabauswahl</h2>
+<p><strong>Code:</strong></p>
+<pre><code>Sort(
+
+[
+
+"GBM",
+
+"SRO"
+
+],
+
+Value
+
+)
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Die Power FX-Formel sortiert die Liste [“GBM”, “SRO”] alphabetisch aufsteigend.<br>
+<br></p>
+<p><strong>Code:</strong></p>
+<pre><code> Distinct(Filter(Mitarbeiter_3, Bereich =  Dropdown2.Selected.Value  &amp;&amp; Gewerblich =  true), Gruppe.Value)
+</code></pre>
+<br>
+<p><strong>Erklärung:</strong><br>
+Der Code filtert die Tabelle “Mitarbeiter_3” nach gewerblichen Mitarbeitern im Bereich des in Dropdown2 ausgewählten Werts und gibt eine Liste eindeutiger Gruppen zurück.</p>
+<hr>
+<h2 id="monatsansicht">Monatsansicht</h2>
+<p><strong>Element:</strong> Button Zurück<br>
+<strong>Eigenschaft:</strong> OnSelect</p>
+<p><strong>Code:</strong></p>
+<pre><code>Set(varToday,  DateAdd(Date(Year(varToday),  Month(varToday),  1), -1,  TimeUnit.Months));
+
+//Set(varToday, DateAdd(varToday, -36, TimeUnit.Days));
+
+  
+  
+
+ClearCollect(
+
+Coll_CurrentMonth,
+
+ForAll(
+
+Sequence(36),  // Dynamische Anzahl der Tage basierend auf dem Monat
+
+{
+
+Day: Text(
+
+DateAdd(
+
+DateValue(Text(Year(varToday),  "[$-de-DE]")  &amp;  "-"  &amp;  Text(Month(varToday),  "[$-de-DE]")  &amp;  "-01"),
+
+ThisRecord.Value  -  1,
+
+TimeUnit.Days
+
+),
+
+"[$-de-DE]dddd"
+
+),
+
+Date: DateAdd(
+
+DateValue(Text(Year(varToday),  "[$-de-DE]")  &amp;  "-"  &amp;  Text(Month(varToday),  "[$-de-DE]")  &amp;  "-01"),
+
+ThisRecord.Value  -  1,
+
+TimeUnit.Days
+
+)
+
+}
+
+)
+
+);
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Dieser Code erstellt eine Sammlung namens “Coll_CurrentMonth” für einen bestimmten Monat. Er beginnt damit, das Datum auf den letzten Tag des Vormonats zu setzen. Dann generiert er eine Liste von 36 Tagen, beginnend mit dem ersten Tag des Monats. Für jeden Tag werden zwei Informationen gespeichert: der Wochentag (z.B. “Montag”) und das vollständige Datum.</p>
+<p><strong>Element:</strong> Monatsanzeige<br>
+<strong>Eigenschaft:</strong> Text<br>
+<strong>Code</strong></p>
+<pre><code>Switch(
+
+Text(varToday,  "[$-en-US]mmmm"),
+
+"January",  "Januar",
+
+"February",  "Februar",
+
+"March",  "März",
+
+"April",  "April",
+
+"May",  "Mai",
+
+"June",  "Juni",
+
+"July",  "Juli",
+
+"August",  "August",
+
+"September",  "September",
+
+"October",  "Oktober",
+
+"November",  "November",
+
+"December",  "Dezember",
+
+"Unbekannter Monat"
+
+)&amp;  "-"  &amp;  Year(varToday)
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Der Code übersetzt den aktuellen Monatsnamen aus Englisch ins Deutsche und kombiniert ihn mit dem Jahr, um einen formatierten Text wie “Februar-2025” zu erstellen.</p>
+<p><strong>Element:</strong> Wochentag<br>
+<strong>Eigenschaft:</strong> Text<br>
+<strong>Code:</strong></p>
+<pre><code>Switch(
+
+ThisItem.Day,
+
+"Monday",  "M",
+
+"Tuesday",  "D",
+
+"Wednesday",  "M",
+
+"Thursday",  "D",
+
+"Friday",  "F",
+
+"Saturday",  "S",
+
+"Sunday",  "S"
+
+)
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Dieser Code wandelt den vollen englischen Wochentag (z.B. “Monday”) in eine einbuchstabige Abkürzung um (z.B. “M” für Montag und Mittwoch, “D” für Dienstag und Donnerstag, usw.).</p>
+<p><strong>Element:</strong> Wochentag<br>
+<strong>Eigenschaft:</strong> Fill<br>
+<strong>Code:</strong></p>
+<pre><code>If(
+
+Weekday(ThisItem.Date)  =  1  ||
+
+Weekday(ThisItem.Date)  =  7  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  12,  24)  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  12,  25)  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  12,  26)  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  12,  31)  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  1,  1)  ||
+
+Or(
+
+ThisItem.Date  =  Date(2025,  4,  18),
+
+ThisItem.Date  =  Date(2025,  4,  21),
+
+ThisItem.Date  =  Date(2025,  5,  1),
+
+ThisItem.Date  =  Date(2025,  5,  8),
+
+ThisItem.Date  =  Date(2025,  5,  29),
+
+ThisItem.Date  =  Date(2025,  6,  9),
+
+ThisItem.Date  =  Date(2025,  10,  3)
+
+),
+
+RGBA(255,  99,  71,  0.3),
+
+RGBA(255,  255,  255,  1)
+
+)
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Der Code überprüft, ob ein Datum ein Wochenende, ein Feiertag oder ein besonderer Tag ist, und weist ihm eine rötliche Hintergrundfarbe zu, ansonsten bleibt der Hintergrund weiß.</p>
+<p><strong>Element:</strong> Datum_2<br>
+<strong>Eigenschaft:</strong> Text<br>
+<strong>Code:</strong></p>
+<pre><code>Text(DateValue(ThisItem.Date),  "dd")
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Der Code gibt den Tag des Monats aus einem Datum als zweistellige Zahl zurück, z. B. “01” für den 1. Tag.</p>
+<p><strong>Element:</strong> Datum_2<br>
+<strong>Eigenschaft:</strong> Fill<br>
+<strong>Code:</strong></p>
+<pre><code>If(
+
+Weekday(ThisItem.Date)  =  1  ||
+
+Weekday(ThisItem.Date)  =  7  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  12,  24)  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  12,  25)  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  12,  26)  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  12,  31)  ||
+
+ThisItem.Date  =  Date(Year(ThisItem.Date),  1,  1)  ||
+
+Or(
+
+ThisItem.Date  =  Date(2025,  4,  18),
+
+ThisItem.Date  =  Date(2025,  4,  21),
+
+ThisItem.Date  =  Date(2025,  5,  1),
+
+ThisItem.Date  =  Date(2025,  5,  8),
+
+ThisItem.Date  =  Date(2025,  5,  29),
+
+ThisItem.Date  =  Date(2025,  6,  9),
+
+ThisItem.Date  =  Date(2025,  10,  3)
+
+),
+
+RGBA(255,  99,  71,  0.3),
+
+RGBA(255,  255,  255,  1)
+
+)
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Der Code prüft, ob ein Datum ein Wochenende, ein Feiertag oder ein besonderer Tag ist, und gibt eine rötliche Farbe zurück, wenn ja, ansonsten Weiß.</p>
+<p><strong>Element:</strong> Button3_2<br>
+<strong>Eigenschaft:</strong> Fill<br>
+<strong>Code:</strong></p>
+<pre><code>If(
+
+CountRows(
+
+Filter(
+
+ThisItem.MitarbeiterDaten,
+
+Status.Value  =  "Genehmigt"  &amp;&amp;
+
+DateValue(ThisItem.Date)  &gt;=  DateValue('Startdatum ')  &amp;&amp;
+
+DateValue(ThisItem.Date)  &lt;=  DateValue('Enddatum ')
+
+)
+
+)  &gt;  0,
+
+RGBA(56,  96,  178,  1),  // Blau für 'Genehmigt' und im Zeitraum
+
+If(
+
+CountRows(
+
+Filter(
+
+ThisItem.MitarbeiterDaten,
+
+Status.Value  =  "in Genehmigung"
+
+)
+
+)  &gt;  0,
+
+RGBA(255,  255,  0,  1),  // Gelb für 'in Genehmigung'
+
+RGBA(0,  0,  0,  0)  // Transparent für alle anderen Fälle
+
+)
+
+)
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Dieser Code prüft den Status von Mitarbeiterdaten für ein bestimmtes Datum und weist entsprechende Farben zu. Wenn genehmigte Daten im angegebenen Zeitraum vorliegen, wird Blau verwendet; bei Daten “in Genehmigung” wird Gelb gewählt, ansonsten bleibt es transparent.</p>
+<p><strong>Element:</strong> Daten für ProbePowerApp<br>
+<strong>Eigenschaft:</strong> Items<br>
+<strong>Code:</strong></p>
+<pre><code>AddColumns(
+
+SortByColumns(
+
+Filter(
+
+Mitarbeiter_3,
+
+Gruppe.Value  =  Dropdown2_2.Selected.Value  &amp;&amp; Gewerblich =  true
+
+),
+
+"Title",
+
+SortOrder.Ascending
+
+)  As MO,
+
+'Abwesenheitsgrund',
+
+Filter(
+
+Coll_FilteredAbwesenheiten,
+
+Value(ID_Mitarbeiter)  = MO.ID
+
+)
+
+)
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Dieser Code filtert die Tabelle “Mitarbeiter_3” nach einer ausgewählten Gruppe und gewerblichen Mitarbeitern, sortiert sie alphabetisch nach dem Feld “Title” und fügt eine zusätzliche Spalte <code>'Abwesenheitsgrund'</code> hinzu. Diese Spalte enthält gefilterte Daten aus “Coll_FilteredAbwesenheiten”, die mit der ID des jeweiligen Mitarbeiters übereinstimmen.</p>
+<p><strong>Element:</strong> TageImMonat3<br>
+<strong>Eigenschaft:</strong> Items<br>
+<strong>Code:</strong></p>
+<pre><code>AddColumns(
+
+Coll_CurrentMonth,
+
+'MitarbeiterDaten',
+
+Filter(
+
+ProbePowerApp,
+
+Value(ID_Mitarbeiter)  =  ThisItem.ID
+
+)
+
+)
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Dieser Code fügt der Sammlung <code>Coll_CurrentMonth</code> eine neue Spalte namens <code>'MitarbeiterDaten'</code> hinzu. In dieser Spalte werden für jeden Eintrag in <code>Coll_CurrentMonth</code> die gefilterten Daten aus der Tabelle <code>ProbePowerApp</code> gespeichert, bei denen die Mitarbeiter-ID (<code>ID_Mitarbeiter</code>) mit der ID des aktuellen Elements (<code>ThisItem.ID</code>) übereinstimmt.</p>
+<p><strong>Zusammenhang zwischen Daten für ProbePowerApp und TageImMonat3</strong><br>
+Der erste Code bereitet die Daten vor, indem er Mitarbeiterinformationen zu den Kalenderdaten hinzufügt. Der zweite Code nutzt diese angereicherten Daten, um eine spezifische, gefilterte und sortierte Ansicht mit zusätzlichen Abwesenheitsinformationen zu erstellen.</p>
+<pre><code>   +-------------------+
+   |                   |
+   | Coll_CurrentMonth | &lt;-- Kalenderdaten + Mitarbeiterdaten
+   |                   |
+   +-------------------+
+            ∩
+   +-------------------+
+   |                   |
+   | Gefilterte Daten  | &lt;-- Mitarbeiter gefiltert nach Gruppe, Gewerblich + Abwesenheitsgründe
+   |                   |
+   +-------------------+
+</code></pre>
+<p><strong>Formallogischer Zusammenhang der beiden Codes:</strong></p>
+<ol>
+<li><strong>Code 1 (C1):</strong><br>
+C1=A∧BC1=A∧B<br>
+AA: <code>Coll_CurrentMonth</code> enthält Kalenderdaten.<br>
+BB: Mitarbeiterdaten aus <code>ProbePowerApp</code> werden hinzugefügt.</li>
+<li><strong>Code 2 (C2):</strong><br>
+C2=C1∧C∧DC2=C1∧C∧D<br>
+CC: Mitarbeiter werden nach Gruppe und Gewerblich gefiltert.<br>
+DD: Abwesenheitsgründe werden hinzugefügt.</li>
+<li><strong>Gesamtausdruck:</strong><br>
+C2=A∧B∧C∧DC2=A∧B∧C∧D<br>
+Beide Codes sind logisch verknüpft, da der zweite Code (<code>C2</code>) auf den Ergebnissen des ersten Codes (<code>C1</code>) aufbaut.</li>
+</ol>
+
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>C1 (A∧B)</th>
+<th>C2 (A∧B∧C∧D)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table><hr>
+<h2 id="antragsseite">Antragsseite</h2>
+<p><strong>Element:</strong> Urlaubsanspruch<br>
+<strong>Eigenschaft:</strong> Text<br>
+<strong>Code:</strong></p>
+<pre><code>"Urlaubsanspruch: "&amp;  Text(30-Value(LookUp('Mitarbeiter_4', Titel =  DataCardValue2.Value).Urlaubstage_Aktuelles_Jahr),"0")
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Der Code berechnet und zeigt den verbleibenden Urlaubsanspruch eines Mitarbeiters an, indem er die genommenen Urlaubstage von einem festen Wert (30) abzieht.</p>
+<p><strong>Element:</strong> Urlaubsverbrauch<br>
+<strong>Eigenschaft:</strong> Text<br>
+<strong>Code:</strong></p>
+<pre><code>"Urlaubsverbrauch:"  &amp;  Text(LookUp('Mitarbeiter_3', Titel =  DataCardValue2.Value).Urlaubstage_Aktuelles_Jahr)
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Der Code zeigt an, wie viele Urlaubstage ein bestimmter Mitarbeiter bereits verbraucht hat.</p>
+<p><strong>Element:</strong> SubmitButton1<br>
+<strong>Eigenschaft:</strong> OnSelect<br>
+<strong>Code:</strong></p>
+<pre><code>// 1️⃣ Rücksetzen der Variablen
+
+Set(GesamtUrlaubstage,  0);
+
+Set(VerbleibenderUrlaub,  0);
+
+Set(VerbrauchterUrlaub,  0);
+
+  
+
+// 2️⃣ Sammlung für neue Einträge leeren
+
+Clear(SubmitFormCollection);
+
+ClearCollect(
+
+LocalCollection,
+
+Filter(
+
+'ProbePowerApp',
+
+Name =  DataCardValue2.Value
+
+)
+
+);
+
+  
+
+// 3️⃣ Prüfen, ob bereits Urlaub im gewählten Zeitraum existiert
+
+If(
+
+CountRows(
+
+Filter(
+
+'ProbePowerApp',
+
+ID_Mitarbeiter =  DataCardValue4.Value  &amp;&amp;
+
+'Startdatum ' &lt;=  DataCardValue7.SelectedDate  &amp;&amp;
+
+'Enddatum ' &gt;=  DataCardValue6.SelectedDate
+
+)
+
+)  &gt;  0,
+
+Notify("Für diesen Zeitraum wurde bereits Urlaub gebucht.",  NotificationType.Error),
+
+  
+
+// 4️⃣ Falls kein Urlaub gebucht wurde: Neuen Urlaub erfassen
+
+ForAll(
+
+Sequence(
+
+DateDiff(DataCardValue6.SelectedDate,  DataCardValue7.SelectedDate,  TimeUnit.Days)  +  1
+
+)  As DateSeq,
+
+With(
+
+{
+
+CurrentDate: DateAdd(DataCardValue6.SelectedDate, DateSeq.Value  -  1,  TimeUnit.Days)
+
+},
+
+If(
+
+Not(
+
+Or(
+
+Weekday(CurrentDate)  =  1,  // Sonntag
+
+Weekday(CurrentDate)  =  7,  // Samstag
+
+CurrentDate in  [
+
+Date(2024,  12,  24),
+
+Date(2024,  12,  25),
+
+Date(2024,  12,  26),
+
+Date(2024,  12,  31),
+
+Date(2025,  1,  1),
+
+Date(2025,  4,  18),
+
+Date(2025,  4,  21),
+
+Date(2025,  5,  1),
+
+Date(2025,  5,  8),
+
+Date(2025,  5,  29),
+
+Date(2025,  6,  9),
+
+Date(2025,  10,  3)
+
+]
+
+)
+
+),
+
+Collect(
+
+SubmitFormCollection,
+
+{
+
+Name: DataCardValue2.Value,
+
+Startdatum: CurrentDate,
+
+Enddatum: DataCardValue7.SelectedDate,
+
+ID_Mitarbeiter: DataCardValue4.Value,
+
+Gruppe: DataCardValue1.Value,
+
+Abwesenheitsgrund: DataCardValue3.Selected,
+
+ApprovalInfo: DataCardValue5.Value
+
+}
+
+)
+
+)
+
+)
+
+);
+
+  
+
+// 5️⃣ Berechnung der Gesamturlaubstage
+
+Set(GesamtUrlaubstage,  CountRows(SubmitFormCollection));
+
+  
+
+// 6️⃣ Aktuelle Urlaubsdaten aus 'Mitarbeiter_3' abrufen
+
+Set(
+
+AktuelleUrlaubstage,
+
+LookUp('Mitarbeiter_3', Titel =  DataCardValue2.Value).Urlaubstage_Aktuelles_Jahr
+
+);
+
+Set(
+
+Urlaubstage_Offen,
+
+LookUp('Mitarbeiter_3', Titel =  DataCardValue2.Value).Urlaubstage_Offen
+
+);
+
+  
+
+// 7️⃣ Neue Werte berechnen mit zusätzlicher Bedingung für Urlaubstage_Offen &lt; 30 und &lt; 0
+
+Set(
+
+NeueGesamtUrlaubstage,
+
+AktuelleUrlaubstage  +  GesamtUrlaubstage
+
+);
+
+  
+
+Set(
+
+Urlaubstage_Offen,
+
+If(
+
+IsBlank(Urlaubstage_Offen),
+
+30  -  GesamtUrlaubstage,
+
+If(
+
+Urlaubstage_Offen  =  30,
+
+30  -  GesamtUrlaubstage,
+
+If(
+
+Urlaubstage_Offen  &gt;  30,
+
+Urlaubstage_Offen  -  GesamtUrlaubstage,
+
+Max(0,  Urlaubstage_Offen  -  GesamtUrlaubstage)  // Falls &lt;30, setze es sicher auf 0 als Minimum
+
+)
+
+)
+
+)
+
+);
+
+  
+  
+
+// 8️⃣ Falls Urlaubstage_Offen - GesamtUrlaubstage &lt; 0, das Feld deaktivieren
+
+If(
+
+Urlaubstage_Offen  -  GesamtUrlaubstage  &lt;  0,
+
+Set(FeldBlockiert,  true),  // Variable zum Sperren des Feldes setzen
+
+Set(FeldBlockiert,  false)  // Falls die Bedingung nicht zutrifft, bleibt das Feld aktiv
+
+);
+
+  
+
+// 9️⃣ Patch()-Funktion zur Aktualisierung der Daten in 'Mitarbeiter_3'
+
+IfError(
+
+Patch(
+
+'Mitarbeiter_3',
+
+LookUp('Mitarbeiter_3', Titel =  DataCardValue2.Value),
+
+{
+
+Urlaubstage_Aktuelles_Jahr: NeueGesamtUrlaubstage,
+
+Urlaubstage_Offen: Urlaubstage_Offen
+
+}
+
+),
+
+Notify("Fehler beim Speichern der Urlaubsdaten.",  NotificationType.Error)
+
+);
+
+  
+
+// 🔟 Bestätigung setzen und zur Bestätigungsseite navigieren
+
+Set(BestätigungErforderlich,  true);
+
+Navigate(PopUP);
+
+);
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Dieser Code führt folgende Hauptaufgaben aus:</p>
+<ol>
+<li>Er setzt Variablen zurück und leert Sammlungen für neue Einträge.</li>
+<li>Er prüft, ob bereits Urlaub im gewählten Zeitraum existiert.</li>
+<li>Falls kein Urlaub gebucht wurde, erfasst er neuen Urlaub für jeden Tag im gewählten Zeitraum, außer an Wochenenden und Feiertagen.</li>
+<li>Er berechnet die Gesamtzahl der Urlaubstage und aktualisiert die Urlaubsdaten des Mitarbeiters.</li>
+<li>Er prüft, ob der Mitarbeiter genug Urlaubstage übrig hat und sperrt gegebenenfalls das Eingabefeld.</li>
+<li>Schließlich aktualisiert er die Daten in der Datenbank und navigiert zu einer Bestätigungsseite.</li>
+</ol>
+<p><strong>Element:</strong> CancelButton1<br>
+<strong>Eigenschaft:</strong> OnSelect<br>
+<strong>Code:</strong></p>
+<pre><code>Navigate('Kalender Monatsansicht');
+</code></pre>
+<p><strong>Erklärung:</strong></p>
+<p>Der Code <code>Navigate('Kalender Monatsansicht');</code> bewirkt, dass die App zur Bildschirmseite mit dem Namen <code>'Kalender Monatsansicht'</code> wechselt. Dies wird häufig in Power Apps verwendet, um zwischen verschiedenen Ansichten oder Seiten der App zu navigieren.</p>
+<p><strong>Element:</strong> Table1<br>
+<strong>Eigenschaft:</strong> Items<br>
+<strong>Code:</strong></p>
+<pre><code>SortByColumns(
+
+Filter(
+
+Mitarbeiter_3,
+
+Gruppe.Value  =  Dropdown2_2.Selected.Value  &amp;&amp; Gewerblich =  true
+
+),
+
+"Title",
+
+SortOrder.Ascending
+
+)
+</code></pre>
+<p><strong>Erklärung:</strong></p>
+<p>Siehe Screen Kalender Monatsansicht. Der Code sucht in der Tabelle <code>Mitarbeiter_3</code> nach Mitarbeitern, die zu einer bestimmten Gruppe gehören (ausgewählt im Dropdown-Menü) und gewerblich sind. Danach werden die gefundenen Mitarbeiter alphabetisch nach ihrem Titel sortiert.</p>
+<hr>
+<h2 id="popup">PopUP</h2>
+<p><strong>Element:</strong> ButtonCanvas1_1<br>
+<strong>Eigenschaft:</strong> OnSelect<br>
+<strong>Code:</strong></p>
+<pre><code>Set(BestätigungErforderlich,  false);
+
+// Speichern
+
+SubmitForm(Form1);
+
+Notify("Erfolgreich gespeichert!",  NotificationType.Success);
+
+  
+
+Refresh('ProbePowerApp');
+
+Refresh('Mitarbeiter_3');
+
+//Back();
+
+Navigate('Kalender Monatsansicht_1');
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Der Code speichert die eingegebenen Daten, zeigt eine Erfolgsmeldung an und aktualisiert die Datenbanken. Danach wechselt er zur Kalenderansicht, damit der Benutzer die Änderungen sehen kann.</p>
+<hr>
+<h2 id="popup_storno">PopUP_Storno</h2>
+<p><strong>Element:</strong> ButtonCanvas1_2<br>
+<strong>Eigenschaft:</strong> OnSelect<br>
+<strong>Code:</strong></p>
+<pre><code>Set(ZuStornieren,  0);
+
+Set(UrlaubsDaten,  Blank());
+
+Set(AktuelleUrlaubstage,  0);
+
+Set(ID_Mitarbeiter,  Blank()); // Zurücksetzen von ID_Mitarbeiter
+
+  
+
+// Überprüfen, ob der Datensatz vorhanden ist
+
+If(
+
+IsBlank(SelectedEntry),
+
+Notify("Der ausgewählte Urlaub konnte nicht gefunden werden.",  NotificationType.Error),
+
+// Abrufen der relevanten Daten aus 'MitarbeiterDaten' in SelectedEntry
+
+Set(
+
+UrlaubsDaten,
+
+LookUp(
+
+SelectedEntry.MitarbeiterDaten,  // Zugriff auf MitarbeiterDaten für den aktuellen Datensatz
+
+DateValue('Startdatum ')  &lt;=  DateValue(SelectedEntry.Date)  &amp;&amp;  // Zeitraum des Urlaubs
+
+DateValue('Enddatum ')  &gt;=  DateValue(SelectedEntry.Date)  // Zeitraum des Urlaubs
+
+)
+
+);
+
+// Falls UrlaubsDaten gefunden wurden, fortfahren
+
+If(
+
+!IsBlank(UrlaubsDaten),
+
+// Abrufen von Startdatum, Enddatum, ID_Mitarbeiter und Name
+
+Set(
+
+Startdatum,
+
+UrlaubsDaten.'Startdatum '
+
+);
+
+Set(
+
+Enddatum,
+
+UrlaubsDaten.'Enddatum '
+
+);
+
+  
+
+Set(
+
+ID_Mitarbeiter,
+
+UrlaubsDaten.ID_Mitarbeiter
+
+);
+
+// Abrufen des Namens des Mitarbeiters
+
+Set(
+
+MitarbeiterName,
+
+LookUp(Mitarbeiter_3, ID =  ID_Mitarbeiter).Name
+
+);
+
+  
+
+// Berechnung der zu stornierenden Urlaubstage
+
+Set(
+
+ZuStornieren,
+
+DateDiff(Startdatum,  Enddatum)  +  1
+
+);
+
+  
+
+// Überprüfen, ob der Datensatz in ProbePowerApp existiert und dann entfernen
+
+Remove(
+
+ProbePowerApp,
+
+LookUp(ProbePowerApp, ID_Mitarbeiter = ID_Mitarbeiter &amp;&amp;
+
+DateValue('Startdatum ')  =  Startdatum  &amp;&amp;
+
+DateValue('Enddatum ')  =  Enddatum)
+
+);
+
+  
+
+// Aktuellen Wert von Urlaubstage_Aktuelles_Jahr abrufen
+
+Set(
+
+AktuelleUrlaubstage,
+
+LookUp(Mitarbeiter_3, ID =  ID_Mitarbeiter).Urlaubstage_Aktuelles_Jahr
+
+);
+
+  
+
+// Aktualisieren der Urlaubstage in Mitarbeiter_3 mit exakter Subtraktion
+
+UpdateIf(
+
+Mitarbeiter_3,
+
+ID =  ID_Mitarbeiter,
+
+{
+
+Urlaubstage_Aktuelles_Jahr: Max(0,  AktuelleUrlaubstage  -  ZuStornieren)
+
+}
+
+);
+
+  
+
+// Überprüfung auf Fehler nach dem Aktualisieren
+
+If(
+
+IsEmpty(Errors(Mitarbeiter_3)),
+
+Notify(
+
+"Stornierung erfolgreich durchgeführt! Urlaubstage für den Zeitraum "  &amp;
+
+Text(Startdatum,  "[$-de-DE]dd.mm.yyyy")  &amp;  " bis "  &amp;  Text(Enddatum,  "[$-de-DE]dd.mm.yyyy")  &amp;
+
+" wurden für "  &amp;  MitarbeiterName  &amp;  " aktualisiert.",
+
+NotificationType.Success
+
+),
+
+Notify(
+
+"Fehler bei der Stornierung: "  &amp;  First(Errors(Mitarbeiter_3)).Message,
+
+NotificationType.Error
+
+)
+
+)
+
+)
+
+);
+
+  
+
+// Zurücksetzen aller Variablen
+
+Set(ZuStornieren,  0);
+
+Set(UrlaubsDaten,  Blank());
+
+Set(AktuelleUrlaubstage,  0);
+
+Set(ID_Mitarbeiter,  Blank()); // Zurücksetzen der ID_Mitarbeiter-Variable
+
+  
+
+// PopUp schließen und zurück zur vorherigen Seite
+
+UpdateContext({showPopUp: false});
+
+Back()
+</code></pre>
+<p><strong>Erklärung:</strong><br>
+Dieser Code führt eine Stornierung von Urlaubstagen durch und setzt dabei verschiedene Variablen zurück. Hier ist die Erklärung in einfachen Sätzen:</p>
+<ol>
+<li><strong>Zurücksetzen der Variablen:</strong><br>
+Der Code setzt alle relevanten Variablen wie <code>ZuStornieren</code>, <code>UrlaubsDaten</code>, <code>AktuelleUrlaubstage</code> und <code>ID_Mitarbeiter</code> auf ihre Standardwerte, um sicherzustellen, dass keine alten Daten verwendet werden.</li>
+<li><strong>Überprüfung des ausgewählten Eintrags:</strong><br>
+Es wird geprüft, ob ein gültiger Urlaubsdatensatz (<code>SelectedEntry</code>) ausgewählt wurde. Falls nicht, wird eine Fehlermeldung angezeigt.</li>
+<li><strong>Abrufen der Urlaubsdaten:</strong><br>
+Wenn der Eintrag existiert, werden die relevanten Daten wie Startdatum, Enddatum und die ID des Mitarbeiters aus der Datenquelle abgerufen.</li>
+<li><strong>Berechnung der zu stornierenden Urlaubstage:</strong><br>
+Die Anzahl der Urlaubstage, die storniert werden sollen, wird berechnet (Differenz zwischen Start- und Enddatum + 1).</li>
+<li><strong>Löschen des Urlaubsdatensatzes:</strong><br>
+Der entsprechende Datensatz wird aus der Tabelle <code>ProbePowerApp</code> entfernt.</li>
+<li><strong>Aktualisierung der Urlaubstage:</strong><br>
+Die verbleibenden Urlaubstage des Mitarbeiters werden in der Tabelle <code>Mitarbeiter_3</code> aktualisiert, indem die stornierten Tage von den aktuellen Urlaubstagen abgezogen werden (mindestens 0 als Untergrenze).</li>
+<li><strong>Erfolgsmeldung oder Fehleranzeige:</strong><br>
+Nach dem Aktualisieren wird entweder eine Erfolgsmeldung angezeigt oder ein Fehler ausgegeben, falls die Aktualisierung fehlschlägt.</li>
+<li><strong>Zurücksetzen und Navigation:</strong><br>
+Am Ende werden alle Variablen erneut zurückgesetzt, das Pop-up-Fenster geschlossen und zur vorherigen Seite zurückgekehrt.</li>
+</ol>
+<p><strong>Zusammengefasst:</strong><br>
+Der Code storniert einen Urlaubseintrag, aktualisiert die verbleibenden Urlaubstage des Mitarbeiters und zeigt eine Erfolgsmeldung oder einen Fehler an. Danach kehrt er zur vorherigen Ansicht zurück.</p>
+</div>
+</body>
+
+</html>
